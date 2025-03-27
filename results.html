@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Reading Results - RaasiGuru</title>
+    <meta
+      name="description"
+      content="Your personalized astrology reading from RaasiGuru"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="star-field" id="starField"></div>
+
+    <nav class="navbar">
+      <div class="container">
+        <div class="navbar-content">
+          <a href="index.html" class="logo">RaasiGuru</a>
+
+          <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="#" class="nav-link">Astrology</a>
+            <a href="#" class="nav-link">Zodiac</a>
+            <a href="#" class="nav-link">Predictions</a>
+          </div>
+
+          <div class="search-box">
+            <input type="text" placeholder="Search..." />
+            <button class="search-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="search-icon"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <div class="container">
+        <div class="results-section">
+          <h1 class="results-title">Your Cosmic Reading</h1>
+
+          <div class="profile-card">
+            <div class="profile-header">
+              <div class="raasi-symbol">
+                <!-- Symbol will be added via JavaScript based on selected raasi -->
+                <div class="placeholder-symbol"></div>
+              </div>
+              <div class="profile-info">
+                <h2 id="profileName">{{ name }}</h2>
+                <div class="info-details">
+                  <p>
+                    <strong>Birth Date:</strong>
+                    <span id="profileBirthdate">{{ birthdate }}</span>
+                  </p>
+                  <p>
+                    <strong>Raasi:</strong>
+                    <span id="profileRaasi">{{ raasi }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reading-container">
+            <div class="reading-section">
+              <h3 class="section-title">General Forecast</h3>
+              <div class="reading-content">
+                <p class="placeholder-text">
+                  Your personalized forecast will appear here. This will include
+                  general predictions about your near future based on your raasi
+                  and planetary positions.
+                </p>
+              </div>
+            </div>
+
+            <div class="reading-section">
+              <h3 class="section-title">Love & Relationships</h3>
+              <div class="reading-content">
+                <p class="placeholder-text">
+                  Your relationship insights will appear here. This will include
+                  guidance on your current or future relationships based on your
+                  cosmic alignment.
+                </p>
+              </div>
+            </div>
+
+            <div class="reading-section">
+              <h3 class="section-title">Career & Finance</h3>
+              <div class="reading-content">
+                <p class="placeholder-text">
+                  Your career and financial path insights will appear here. This
+                  will include guidance on professional decisions and financial
+                  opportunities.
+                </p>
+              </div>
+            </div>
+
+            <div class="reading-section">
+              <h3 class="section-title">Health & Wellness</h3>
+              <div class="reading-content">
+                <p class="placeholder-text">
+                  Your health and wellness guidance will appear here. This will
+                  include recommendations for maintaining balance in your
+                  physical and mental well-being.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="navigation-buttons">
+            <a href="index.html" class="back-btn">Get a New Reading</a>
+            <button class="share-btn">Share Your Reading</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Create starfield effect
+      function createStars() {
+        const starField = document.getElementById("starField");
+        const starsCount = 100;
+
+        for (let i = 0; i < starsCount; i++) {
+          const star = document.createElement("div");
+          star.className = "star";
+
+          // Random position
+          star.style.top = `${Math.random() * 100}%`;
+          star.style.left = `${Math.random() * 100}%`;
+
+          // Random size
+          const size = Math.random() * 3;
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+
+          // Random animation delay
+          star.style.animationDelay = `${Math.random() * 5}s`;
+
+          starField.appendChild(star);
+        }
+      }
+
+      // Extract query parameters from URL
+      function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          name: params.get("name") || "Guest User",
+          birthdate: params.get("birthdate") || "Not provided",
+          raasi: params.get("raasi") || "Not selected",
+        };
+      }
+
+      // Populate profile data
+      function populateProfile() {
+        const { name, birthdate, raasi } = getQueryParams();
+
+        document.getElementById("profileName").textContent = name;
+
+        // Format date if it exists
+        if (birthdate !== "Not provided") {
+          const date = new Date(birthdate);
+          const formattedDate = date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+          document.getElementById("profileBirthdate").textContent =
+            formattedDate;
+        } else {
+          document.getElementById("profileBirthdate").textContent = birthdate;
+        }
+
+        // Format raasi name
+        if (raasi !== "Not selected") {
+          const formattedRaasi = raasi.charAt(0).toUpperCase() + raasi.slice(1);
+          document.getElementById("profileRaasi").textContent = formattedRaasi;
+        } else {
+          document.getElementById("profileRaasi").textContent = raasi;
+        }
+      }
+
+      // Initialize on page load
+      window.addEventListener("DOMContentLoaded", () => {
+        createStars();
+        populateProfile();
+      });
+    </script>
+  </body>
+</html>

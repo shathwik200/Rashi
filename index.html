@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RaasiGuru - Your Cosmic Astrology Guide</title>
+    <meta
+      name="description"
+      content="Discover your cosmic path with RaasiGuru, your personal astrology guide. Get insights based on your raasi (zodiac sign)."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="star-field" id="starField"></div>
+
+    <nav class="navbar">
+      <div class="container">
+        <div class="navbar-content">
+          <a href="index.html" class="logo">RaasiGuru</a>
+
+          <div class="nav-links">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="#" class="nav-link">Astrology</a>
+            <a href="#" class="nav-link">Zodiac</a>
+            <a href="#" class="nav-link">Predictions</a>
+          </div>
+
+          <div class="search-box">
+            <input type="text" placeholder="Search..." />
+            <button class="search-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="search-icon"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <div class="container">
+        <div class="hero-section">
+          <div class="hero-text">
+            <h5 class="subtitle">DISCOVER YOUR COSMIC PATH</h5>
+            <h1 class="title">
+              Welcome to <span class="gradient-text">RaasiGuru</span>
+            </h1>
+            <p class="description">
+              Explore the ancient wisdom of astrology and unlock the secrets of
+              your cosmic identity. Enter your details below to receive
+              personalized insights about your path.
+            </p>
+          </div>
+
+          <div class="form-container">
+            <div class="zodiac-wheel" id="zodiacWheel">
+              <!-- Zodiac wheel visual will be created with CSS -->
+            </div>
+
+            <form class="astrology-form" action="{{ url_for('results') }}" method="get">
+              <h3 class="form-title">Personal Astrology Reading</h3>
+
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="birthdate">Date of Birth</label>
+                <input type="date" id="birthdate" name="birthdate" required />
+              </div>
+
+              <div class="form-group">
+                <label for="raasi">Select Your Raasi (Zodiac Sign)</label>
+                <select id="raasi" name="raasi" required>
+                  <option value="" disabled selected>Select your sign</option>
+                  <option value="aries">Aries (Mesha)</option>
+                  <option value="taurus">Taurus (Vrishaba)</option>
+                  <option value="gemini">Gemini (Mithuna)</option>
+                  <option value="cancer">Cancer (Kataka)</option>
+                  <option value="leo">Leo (Simha)</option>
+                  <option value="virgo">Virgo (Kanya)</option>
+                  <option value="libra">Libra (Tula)</option>
+                  <option value="scorpio">Scorpio (Vrishchika)</option>
+                  <option value="sagittarius">Sagittarius (Dhanu)</option>
+                  <option value="capricorn">Capricorn (Makara)</option>
+                  <option value="aquarius">Aquarius (Kumbha)</option>
+                  <option value="pisces">Pisces (Meena)</option>
+                </select>
+              </div>
+
+              <button type="submit" class="submit-btn">
+                Get Your Cosmic Reading
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Create starfield effect
+      function createStars() {
+        const starField = document.getElementById("starField");
+        const starsCount = 100;
+
+        for (let i = 0; i < starsCount; i++) {
+          const star = document.createElement("div");
+          star.className = "star";
+
+          // Random position
+          star.style.top = `${Math.random() * 100}%`;
+          star.style.left = `${Math.random() * 100}%`;
+
+          // Random size
+          const size = Math.random() * 3;
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+
+          // Random animation delay
+          star.style.animationDelay = `${Math.random() * 5}s`;
+
+          starField.appendChild(star);
+        }
+      }
+
+      // Create zodiac wheel visual
+      function createZodiacWheel() {
+        const wheel = document.getElementById("zodiacWheel");
+
+        // Create the wheel structure
+        const wheelSvg = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "svg"
+        );
+        wheelSvg.setAttribute("width", "300");
+        wheelSvg.setAttribute("height", "300");
+        wheelSvg.setAttribute("viewBox", "0 0 300 300");
+        wheelSvg.setAttribute("fill", "none");
+
+        // Outer circle
+        const outerCircle = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "circle"
+        );
+        outerCircle.setAttribute("cx", "150");
+        outerCircle.setAttribute("cy", "150");
+        outerCircle.setAttribute("r", "149");
+        outerCircle.setAttribute("stroke", "rgba(155, 186, 108, 0.3)");
+        outerCircle.setAttribute("stroke-width", "2");
+        wheelSvg.appendChild(outerCircle);
+
+        // Inner circles
+        const innerCircles = [120, 90, 60, 30];
+        innerCircles.forEach((radius) => {
+          const circle = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle"
+          );
+          circle.setAttribute("cx", "150");
+          circle.setAttribute("cy", "150");
+          circle.setAttribute("r", radius.toString());
+          circle.setAttribute("stroke", "rgba(155, 186, 108, 0.15)");
+          circle.setAttribute("stroke-width", "1");
+          wheelSvg.appendChild(circle);
+        });
+
+        // Dividing lines
+        for (let i = 0; i < 12; i++) {
+          const angle = (i * 30 * Math.PI) / 180;
+          const x1 = 150 + 149 * Math.cos(angle);
+          const y1 = 150 + 149 * Math.sin(angle);
+          const x2 = 150 + 30 * Math.cos(angle);
+          const y2 = 150 + 30 * Math.sin(angle);
+
+          const line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line"
+          );
+          line.setAttribute("x1", x1.toString());
+          line.setAttribute("y1", y1.toString());
+          line.setAttribute("x2", x2.toString());
+          line.setAttribute("y2", y2.toString());
+          line.setAttribute("stroke", "rgba(155,, 186, 108, 0.2)");
+          line.setAttribute("stroke-width", "1");
+          wheelSvg.appendChild(line);
+
+          // Add zodiac symbols (simplified as circles)
+          const symbolAngle = ((i * 30 - 90) * Math.PI) / 180;
+          const symbolX = 150 + 135 * Math.cos(symbolAngle);
+          const symbolY = 150 + 135 * Math.sin(symbolAngle);
+
+          const symbol = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle"
+          );
+          symbol.setAttribute("cx", symbolX.toString());
+          symbol.setAttribute("cy", symbolY.toString());
+          symbol.setAttribute("r", "4");
+          symbol.setAttribute("fill", "rgba(254, 247, 205, 0.7)");
+          wheelSvg.appendChild(symbol);
+        }
+
+        // Center dot
+        const centerDot = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "circle"
+        );
+        centerDot.setAttribute("cx", "150");
+        centerDot.setAttribute("cy", "150");
+        centerDot.setAttribute("r", "4");
+        centerDot.setAttribute("fill", "rgba(254, 247, 205, 0.8)");
+        wheelSvg.appendChild(centerDot);
+
+        wheel.appendChild(wheelSvg);
+      }
+
+      // Initialize on page load
+      window.addEventListener("DOMContentLoaded", () => {
+        createStars();
+        createZodiacWheel();
+      });
+    </script>
+  </body>
+</html>
